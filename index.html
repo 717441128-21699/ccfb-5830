@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>多路庭审同步回放台</title>
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <header id="topbar">
+    <div class="brand">多路同步回放台</div>
+    <div class="top-actions">
+      <label class="btn primary" for="file-input">＋ 导入音视频</label>
+      <input id="file-input" type="file" multiple accept="video/*,audio/*,.mp4,.mov,.mkv,.m4v,.mp3,.wav,.m4a,.aac" hidden />
+      <button id="btn-load-demo" class="btn">载入示例素材</button>
+      <button id="btn-auto-align" class="btn accent" disabled>⚡ 自动对齐(音频互相关)</button>
+    </div>
+  </header>
+
+  <main id="layout">
+    <section id="stage-col">
+      <div id="stage">
+        <div id="main-view" class="main-view empty"><span class="hint">导入素材后,点击小窗切换主画面</span></div>
+        <div id="pip-row"></div>
+      </div>
+      <div id="transport">
+        <button id="btn-play" class="btn big" disabled>▶</button>
+        <button id="btn-back5" class="btn" disabled>−5s</button>
+        <button id="btn-fwd5" class="btn" disabled>+5s</button>
+        <div id="clock">00:00.000</div>
+        <div class="spacer"></div>
+        <label class="audio-src-label">出声轨道:
+          <select id="audio-source"></select>
+        </label>
+        <label class="rate-label">倍速
+          <select id="playback-rate">
+            <option value="0.5">0.5×</option>
+            <option value="1" selected>1×</option>
+            <option value="1.5">1.5×</option>
+            <option value="2">2×</option>
+          </select>
+        </label>
+      </div>
+      <div id="timeline-wrap">
+        <canvas id="timeline"></canvas>
+        <div id="timeline-tip" hidden></div>
+      </div>
+      <div id="selection-bar">
+        <span>导出区间:</span>
+        <button id="btn-set-in" class="btn small" disabled>设入点 [</button>
+        <span id="sel-in">—</span>
+        <button id="btn-set-out" class="btn small" disabled>设出点 ]</button>
+        <span id="sel-out">—</span>
+        <button id="btn-clear-sel" class="btn small" disabled>清除</button>
+        <div class="spacer"></div>
+        <button id="btn-export" class="btn accent" disabled>⬇ 导出画中画 MP4</button>
+      </div>
+      <div id="export-progress" hidden>
+        <progress id="export-bar" max="1" value="0"></progress>
+        <span id="export-status"></span>
+        <button id="btn-export-cancel" class="btn small">取消</button>
+      </div>
+    </section>
+
+    <aside id="sidebar">
+      <div class="panel">
+        <h2>轨道 / 偏移微调</h2>
+        <div id="track-list"></div>
+      </div>
+      <div class="panel">
+        <h2>书签备注 <button id="btn-add-bookmark" class="btn small" disabled>＋ 当前时间</button></h2>
+        <div id="bookmark-list"></div>
+      </div>
+      <div class="panel">
+        <h2>对齐报告</h2>
+        <div id="align-report" class="mono dim">尚未对齐</div>
+      </div>
+    </aside>
+  </main>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
